@@ -81,20 +81,45 @@ void readDataFile() {
 }
 
 void generateLocalityRpt(char ip[]) {
-        FILE *write;
-        int i = 0, i2;
+	FILE *write;
+	int i = 0, j= 0;
 	size_t len = strlen(ip);
-	char qual = '.', qual2 = ' ',locality[16]; ips[64];
+	char qual = '.', qual2 = ' ',locality[16], ips[64];
 	char word[64];
-	//int count = 0;
+	int counter1, counter2, counter3, counter4;
+	static struct address_t addressArray[100];
+
 
 	for(i; i < len; i++) {
-		//printf("%c", ip[i]);
-		if(ip[i] != qual) {
-			printf("%c", ip[i]);
-		}			
+
+		//printf("%c\n", ip[i]); 
+		if(ip[i] == '.') {
+			counter2 = i;
+			//printf("%d", counter2);
+			for(j; j< counter2; j++) {
+				printf("%c", ip[j]);
+			}
+			j = counter2;
+			printf("\n");
+		}
+		
+		if(ip[i] == ' ') {
+			counter2 = i;
+			for(j; j< counter2; j++) {
+				printf("%c", ip[j]);
+			}
+			printf("\n");
+		}	
+		//printf("%d", count);
+		//if(count==1) {
+		//	printf("%s", &ip[i+1]);
+		
+		//}
+
 	}
-	//printf("\n");
+	
+
+	printf("\n");
 
 
         write = fopen("222_Locality_Report", "a");
@@ -109,7 +134,5 @@ char *getDateAndTime() {
         time(&t);
         return ctime(&t);
 }
-
-
 
 
