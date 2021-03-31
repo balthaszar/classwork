@@ -67,7 +67,7 @@ void readDataFile() {
         FILE *write;
         char ip[64];
 	int i = 0, j = 0, k= 0;
-        char word[] = "";
+        char word[] = "", word2[] = "Hello";
         int counter1, counter2, counter3, counter4;
         static struct address_t addressArray[100];
 
@@ -87,7 +87,9 @@ void readDataFile() {
 		}
 		for(j=0; j< counter2; j++) {
 			printf("%c", ip[j]);
+			//strcpy(addressArray[k].alias, word2);
 				}
+		//printf("\n%s", addressArray[k].alias);
 		printf("\n");
 		
     
@@ -136,8 +138,11 @@ void readDataFile() {
 		counter2++;
 		for(i=counter2; i < strlen(ip); i++) {
 			printf("%c", ip[i]);
+			strcpy(word, &ip[i]);
 		}
+		printf("%s", word);
 		printf("\n\n");
+		k++;
 		
 	}
         fclose(inputReport);
