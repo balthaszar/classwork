@@ -64,66 +64,88 @@ int main() {
 
 void readDataFile() {
         FILE *inputReport;
-        FILE *filePointer;
+        FILE *write;
         char ip[64];
+	int i = 0, j = 0, k= 0;
+        char word[] = "";
+        int counter1, counter2, counter3, counter4;
+        static struct address_t addressArray[100];
+
 
         inputReport=fopen("CS222_Inet.txt", "r");
-        filePointer=fopen("222_Locality_Report", "a");
+        write=fopen("222_Locality_Report", "a");
 
         //testing
+	int temp = 0;
         while (fgets(ip, sizeof ip, inputReport) != NULL) {
-                //fprintf(filePointer, "%s", ip);
-                generateLocalityRpt(ip);
-        }
+		
+		for(i=0; i< strlen(ip); i++) {
+			if(ip[i] == '.') {
+				counter2 = i;
+				break;
+			}
+		}
+		for(j=0; j< counter2; j++) {
+			printf("%c", ip[j]);
+				}
+		printf("\n");
+		
+    
 
+		counter2++;
+		for(i= counter2; i < strlen(ip); i++) {
+			if(ip[i] == '.') {
+				counter2 = i;
+				break;
+			}
+		}
+		j++;
+		for(j; j<counter2; j++) {
+			printf("%c", ip[j]);
+		}	
+		printf("\n");
+		
+		counter2++;
+		for(i = counter2; i <strlen(ip); i++) {
+			if(ip[i] == '.') {
+				counter2 = i;
+				break;
+			}
+		}
+		j++;
+		for(j; j< counter2; j++) {
+			printf("%c", ip[j]);
+		}
+
+		printf("\n");
+
+                counter2++;
+                for(i = counter2; i <strlen(ip); i++) {
+                        if(ip[i] == ' ') {
+                                counter2 = i;
+                                break;
+                        }
+                }
+                j++;
+                for(j; j< counter2; j++) {
+                        printf("%c", ip[j]);
+                }
+		
+		printf("\n");
+		
+		counter2++;
+		for(i=counter2; i < strlen(ip); i++) {
+			printf("%c", ip[i]);
+		}
+		printf("\n\n");
+		
+	}
         fclose(inputReport);
-        fclose(filePointer);
+        fclose(write);
 }
 
 void generateLocalityRpt(char ip[]) {
-	FILE *write;
-	int i = 0, j= 0;
-	size_t len = strlen(ip);
-	char qual = '.', qual2 = ' ',locality[16], ips[64];
-	char word[64];
-	int counter1, counter2, counter3, counter4;
-	static struct address_t addressArray[100];
 
-
-	for(i; i < len; i++) {
-
-		//printf("%c\n", ip[i]); 
-		if(ip[i] == '.') {
-			counter2 = i;
-			//printf("%d", counter2);
-			for(j; j< counter2; j++) {
-				printf("%c", ip[j]);
-			}
-			j = counter2;
-			printf("\n");
-		}
-		
-		if(ip[i] == ' ') {
-			counter2 = i;
-			for(j; j< counter2; j++) {
-				printf("%c", ip[j]);
-			}
-			printf("\n");
-		}	
-		//printf("%d", count);
-		//if(count==1) {
-		//	printf("%s", &ip[i+1]);
-		
-		//}
-
-	}
-	
-
-	printf("\n");
-
-
-        write = fopen("222_Locality_Report", "a");
-        //printf("%s", ip);
 }
 
 
