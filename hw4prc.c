@@ -19,6 +19,8 @@ struct address_t {
         char alias[10];
 };
 
+struct address_t addressArray[100];
+
 //main function
 int main() {
 
@@ -66,8 +68,9 @@ void readDataFile() {
         FILE *inputReport;
         FILE *write;
         char ip[64];
-	int i = 0, j = 0, k= 0;
-        char word[] = "", word2[] = "Hello";
+	int i = 0, j = 0, k= 0, z;
+        //char word[] = "";
+	char octet1[] = "";
         int counter1, counter2, counter3, counter4;
         static struct address_t addressArray[100];
 
@@ -78,21 +81,28 @@ void readDataFile() {
         //testing
 	int temp = 0;
         while (fgets(ip, sizeof ip, inputReport) != NULL) {
-		
+		char word[] = "";	
+
+		//first loop for the first octet group
 		for(i=0; i< strlen(ip); i++) {
 			if(ip[i] == '.') {
 				counter2 = i;
 				break;
 			}
 		}
+		//printf("\n%d\n", counter2);
+                //printf("%d", j);
+
 		for(j=0; j< counter2; j++) {
 			printf("%c", ip[j]);
-			//strcpy(addressArray[k].alias, word2);
-				}
-		//printf("\n%s", addressArray[k].alias);
-		printf("\n");
 		
-    
+				}	
+                //printf("%d", j);
+
+		printf("\n%s", octet1);
+		//printf("\n");
+		
+		
 
 		counter2++;
 		for(i= counter2; i < strlen(ip); i++) {
@@ -103,10 +113,13 @@ void readDataFile() {
 		}
 		j++;
 		for(j; j<counter2; j++) {
+			//strcpy(oct1, &ip[j]);
 			printf("%c", ip[j]);
-		}	
+		}
 		printf("\n");
 		
+
+
 		counter2++;
 		for(i = counter2; i <strlen(ip); i++) {
 			if(ip[i] == '.') {
@@ -118,8 +131,10 @@ void readDataFile() {
 		for(j; j< counter2; j++) {
 			printf("%c", ip[j]);
 		}
-
 		printf("\n");
+
+
+
 
                 counter2++;
                 for(i = counter2; i <strlen(ip); i++) {
@@ -128,22 +143,25 @@ void readDataFile() {
                                 break;
                         }
                 }
-                j++;
+                j++; 
                 for(j; j< counter2; j++) {
                         printf("%c", ip[j]);
                 }
-		
 		printf("\n");
 		
+
+
+		//this is getting the alias and putting it in word
 		counter2++;
 		for(i=counter2; i < strlen(ip); i++) {
-			printf("%c", ip[i]);
+			//printf("%c", ip[i]);
 			strcpy(word, &ip[i]);
 		}
-		printf("%s", word);
-		printf("\n\n");
-		k++;
 		
+		printf("%s", word);
+		printf("\n");
+		k++;
+		j = 0;
 	}
         fclose(inputReport);
         fclose(write);
