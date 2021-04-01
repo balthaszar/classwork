@@ -15,12 +15,12 @@ struct address_t {
 };
 
 struct address_t addressArray[100];
-
+FILE *outputReport;
 
 char *getDateAndTime();
 
 void readDataFile();
-void generateLocalityRpt(struct address_t addressArray[100]);
+void generateLocalityRpt(struct address_t addressArray[100], int amount);
 
 
 
@@ -55,13 +55,13 @@ int main() {
 
         fprintf(filePointer,"%s%s", named, getDateAndTime());
         fprintf(filePointer, "CS222 Network Locality Report\n");
-        fprintf(filePointer, "Address total: \n");
-        fprintf(filePointer, "Localities: \n\n");
+      
 
 
         fclose(filePointer);
         //fclose(inputReport);  
         readDataFile();
+
 
         return (0);
 }
@@ -90,20 +90,87 @@ void readDataFile() {
 		
 		
 		sscanf(ip, "%d.%d.%d.%d %s", tip, tip+1, tip+2, tip+3, talias);
-		if(tip[0]!=0) {
-			printf("%d\n", tip[0]);
-			printf("%d\n", tip[1]);
-			printf("%d\n", tip[2]);
-			printf("%d\n", tip[3]);
-			printf("%s\n", talias);
-	        	printf("\n");	
+		if((tip[0]!=0) && (tip[1] != 0)) {
+			addressArray[k].oct1 = tip[0];
+			//printf("%d\n", addressArray[k].oct1);
+			
+			addressArray[k].oct2 = tip[1];
+			//printf("%d\n", addressArray[k].oct2);
+
+			addressArray[k].oct3 = tip[2];
+			//printf("%d\n", addressArray[k].oct3);
+
+			addressArray[k].oct4 = tip[3];
+			//printf("%d\n", addressArray[k].oct4);
+
+			strcpy(addressArray[k].alias , talias);
+			//printf("%s\n", addressArray[k].alias);
+	        	//printf("\n");	
 		}
 		
+		k++;
 	}
 
+	generateLocalityRpt(addressArray, k-1);
 }
 
+void generateLocalityRpt(struct address_t addressArray[100], int amount) {
+	int i = 0, j = 0, counter=0, local = 0;
+	int val1, val2;
+	
+	outputReport = fopen("222_Locality_Report", "a");
 
+        fprintf(outputReport, "Address total: %d\n", amount);
+        
+	
+	//for loop to check how many values are distinct
+	
+	for (i=0; i< amount; i++) {
+		
+		counter = 0; //reset the counter
+		for (j = i+1; j<amount; j++) {
+
+			//comparison of first two integers of the addresses
+			if((addressArray[j].oct1 == addressArray[i].oct1) &&
+					(addressArray[j].oct2 == addressArray[i].oct2)) {
+						counter++; //add to the counter if there's a match
+			}
+		}
+
+		//if the counter remained zero, add to local
+		if(counter == 0) {
+			local++;
+		}		
+	}
+
+        fprintf(outputReport, "Localities: %d\n\n", local);
+			
+		
+	
+
+
+
+	for(i=0;i < local; i++) {
+		val1 = addressArray[i].oct1;
+		val2 = addressArray[i].oct2;
+       	        fprintf(outputReport, "%d", addressArray[i].oct1);
+       	        fprintf(outputReport, ".");
+       	        fprintf(outputReport, "%d\n", addressArray[i].oct2);
+       	        //printf("%s\n", addressArray[i].alias);
+
+		for(j=0; j<amount; j++) {
+			
+			if((val1 == addressArray[j].oct1) &&
+					(val2 == addressArray[j].oct2)) {
+						fprintf(outputReport, "%s\n", addressArray[j].alias);
+			}
+	}
+	fprintf(outputReport,"\n");	
+	}
+	
+
+	fclose(outputReport);
+}
 
 
 //time function to return the current time
