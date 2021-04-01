@@ -5,7 +5,7 @@
 #include <math.h>
 
 
-
+//structure prototype
 struct address_t {
         int oct1;
         int oct2;
@@ -14,11 +14,14 @@ struct address_t {
         char alias[10];
 };
 
+
+//global varibales, only 2 declared
 struct address_t addressArray[100];
 FILE *outputReport;
 
-char *getDateAndTime();
 
+//user-defined functions
+char *getDateAndTime();
 void readDataFile();
 void generateLocalityRpt(struct address_t addressArray[100], int amount);
 
@@ -41,7 +44,7 @@ int main() {
         sprintf(named,"%s", name);
 
 
-
+	//using filePointer to open the locality report for writing
         filePointer=fopen("222_Locality_Report", "w");
 
         //return an error message if the file doesn't open properly
@@ -75,7 +78,6 @@ void readDataFile() {
         char talias[10];
 	char ip[64];
         int tip[4] = {0};
-	char sentinel[] = "NONE\0";
         static struct address_t addressArray[100];
 
 
@@ -85,6 +87,7 @@ void readDataFile() {
         //testing
         int temp = 0;
    
+
 	while(fgets(ip, sizeof ip, inputReport) != NULL) {
 		
 		
@@ -92,20 +95,15 @@ void readDataFile() {
 		sscanf(ip, "%d.%d.%d.%d %s", tip, tip+1, tip+2, tip+3, talias);
 		if((tip[0]!=0) && (tip[1] != 0)) {
 			addressArray[k].oct1 = tip[0];
-			//printf("%d\n", addressArray[k].oct1);
 			
 			addressArray[k].oct2 = tip[1];
-			//printf("%d\n", addressArray[k].oct2);
 
 			addressArray[k].oct3 = tip[2];
-			//printf("%d\n", addressArray[k].oct3);
 
 			addressArray[k].oct4 = tip[3];
-			//printf("%d\n", addressArray[k].oct4);
 
 			strcpy(addressArray[k].alias , talias);
-			//printf("%s\n", addressArray[k].alias);
-	        	//printf("\n");	
+		
 		}
 		
 		k++;
@@ -117,7 +115,7 @@ void readDataFile() {
 void generateLocalityRpt(struct address_t addressArray[100], int amount) {
 	int i = 0, j = 0, counter=0, local = 0, k=0, kcount = 0;
 	int val1, val2, idx = 0;
-	int larray[100][2];
+	int larray[amount][2];
 	
 	outputReport = fopen("222_Locality_Report", "a");
 
@@ -146,25 +144,80 @@ void generateLocalityRpt(struct address_t addressArray[100], int amount) {
 
         fprintf(outputReport, "Localities: %d\n\n", local);
 				
-	
+	//trying out to find distinct vals for larray
+	larray[0][0] = addressArray[0].oct1;
+	larray[0][1] = addressArray[0].oct2;
+	for(i=1; i<amount; i++) {
+		idx = 0;
+
+
+		for(j=0; j<amount; j++) {
+			if((addressArray[i].oct1 == larray[j][0]) && 
+				(addressArray[i].oct2 == larray[j][1])) {
+					//printf("Locality already in\n");
+					//printf("%d.%d\n", larray[j][0], larray[j][1]);
+					idx++;
+					break;
+		}
+		}
+		if(idx == 0) {
+			larray[i][0] = addressArray[i].oct1;
+			larray[i][1] = addressArray[i].oct2;
+			//printf("larray: %d.%d\n", larray[i][0], larray[i][1]);
+		}
+			
+	}
 
 	
+		
+	int counta;	
+	for(i=0; i < amount; i++) {
+		
+		//printf("%d.", larray[i][0]);
+		//printf("%d\n", larray[i][1]);
+		counta = 0;
+		for(j=0; j<amount; j++) {
+			if((larray[i][0] == addressArray[j].oct1) &&
+					larray[i][1] == addressArray[j].oct2) {
+						counta++;
+						if(counta == 1) {
+							printf("%d.", larray[i][0]);
+							printf("%d\n", larray[i][1]);
+						}
+						printf("%s\n", addressArray[j].alias);
+						}
+				
+					}
+		//printf("\n");
+		if(counta > 0) {
+			printf("\n");
+		}
+		
+				}
+	
 
+
+	
+	//this is my current output function
+	//does not only take distinct elements
 	for(i=0;i < amount; i++) {
+
+		//initializing some values
 		val1 = addressArray[i].oct1;
 		val2 = addressArray[i].oct2;
 		kcount = 0;
 		
 
 			
-
+		//print into file the locality (not distinct)
        	        fprintf(outputReport, "%d", addressArray[i].oct1);
        	        fprintf(outputReport, ".");
        	        fprintf(outputReport, "%d\n", addressArray[i].oct2);
        	       
-
+		//loop for if the locality matches
 		for(j=0; j<amount; j++) {
 			
+			//if it is a match, print the alias to the file
 			if((val1 == addressArray[j].oct1) &&
 				(val2 == addressArray[j].oct2)) {
 					fprintf(outputReport, "%s\n", addressArray[j].alias);
