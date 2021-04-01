@@ -1,8 +1,8 @@
-fa
-Thu Apr  1 02:10:48 2021
+af
+Thu Apr  1 04:06:15 2021
 CS222 Network Locality Report
-Address total: 5
-Localities: 3
+Address total: 6
+Localities: 4
 
 111.22
 PLATTE
@@ -14,4 +14,15 @@ BAKER
 
 172.66
 WABASH
+
+111.22
+PLATTE
+GREEN
+
+131.250
+JET
+BAKER
+
+101.45
+WORK
 

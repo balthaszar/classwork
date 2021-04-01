@@ -115,8 +115,9 @@ void readDataFile() {
 }
 
 void generateLocalityRpt(struct address_t addressArray[100], int amount) {
-	int i = 0, j = 0, counter=0, local = 0;
-	int val1, val2;
+	int i = 0, j = 0, counter=0, local = 0, k=0, kcount = 0;
+	int val1, val2, idx = 0;
+	int larray[100][2];
 	
 	outputReport = fopen("222_Locality_Report", "a");
 
@@ -126,7 +127,7 @@ void generateLocalityRpt(struct address_t addressArray[100], int amount) {
 	//for loop to check how many values are distinct
 	
 	for (i=0; i< amount; i++) {
-		
+		//printf("%d.%d\n", addressArray[i].oct1, addressArray[i].oct2);
 		counter = 0; //reset the counter
 		for (j = i+1; j<amount; j++) {
 
@@ -144,29 +145,33 @@ void generateLocalityRpt(struct address_t addressArray[100], int amount) {
 	}
 
         fprintf(outputReport, "Localities: %d\n\n", local);
-			
-		
+				
 	
 
+	
 
-
-	for(i=0;i < local; i++) {
+	for(i=0;i < amount; i++) {
 		val1 = addressArray[i].oct1;
 		val2 = addressArray[i].oct2;
+		kcount = 0;
+		
+
+			
+
        	        fprintf(outputReport, "%d", addressArray[i].oct1);
        	        fprintf(outputReport, ".");
        	        fprintf(outputReport, "%d\n", addressArray[i].oct2);
-       	        //printf("%s\n", addressArray[i].alias);
+       	       
 
 		for(j=0; j<amount; j++) {
 			
 			if((val1 == addressArray[j].oct1) &&
-					(val2 == addressArray[j].oct2)) {
-						fprintf(outputReport, "%s\n", addressArray[j].alias);
+				(val2 == addressArray[j].oct2)) {
+					fprintf(outputReport, "%s\n", addressArray[j].alias);
 			}
 	}
 	fprintf(outputReport,"\n");	
-	}
+	}	
 	
 
 	fclose(outputReport);
